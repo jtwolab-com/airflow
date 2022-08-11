@@ -1,17 +1,31 @@
-from datetime import datetime, timedelta
+import datetime
 
 from airflow.models import DAG
+from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
 
-DEFAULT_DATE = datetime(2022, 8, 1)
-
-# DAG tests backfill with pooled tasks
-# Previously backfill would queue the task but never run it
-dag1 = DAG(dag_id='test_start_date_scheduling', start_date=datetime.utcnow() + timedelta(days=1))
-dag1_task1 = EmptyOperator(task_id='dummy', dag=dag1, owner='airflow')
-
-dag2 = DAG(dag_id='test_task_start_date_scheduling', start_date=DEFAULT_DATE)
-dag2_task1 = EmptyOperator(
-    task_id='dummy1', dag=dag2, owner='airflow', start_date=DEFAULT_DATE + timedelta(days=3)
+dag = DAG(
+    dag_id='test_example_bash_operator',
+    default_args={'owner': 'airflow', 'retries': 3, 'start_date': datetime.datetime(2022, 8, 1)},
+    schedule='@once',
 )
-dag2_task2 = EmptyOperator(task_id='dummy2', dag=dag2, owner='airflow')
+
+cmd = 'ls -l'
+run_this_last = EmptyOperator(task_id='run_this_last', dag=dag)
+
+run_this = BashOperator(task_id='run_after_loop', bash_command='echo 1', dag=dag)
+run_this.set_downstream(run_this_last)
+
+for i in range(3):
+    task = BashOperator(
+        task_id='runme_' + str(i), bash_command='echo "{{ task_instance_key_str }}" && sleep 1', dag=dag
+    )
+    task.set_downstream(run_this)
+
+task = BashOperator(
+    task_id='also_run_this', bash_command='echo "run_id={{ run_id }} | dag_run={{ dag_run }}"', dag=dag
+)
+task.set_downstream(run_this_last)
+
+if __name__ == "__main__":
+    dag.cli()
