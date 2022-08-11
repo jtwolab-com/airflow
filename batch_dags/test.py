@@ -31,7 +31,6 @@ def tutorial_taskflow_api_etl():
     def load(total_order_value: float):
         print(f"Total order value is: {total_order_value:.2f}")
 """       
- 
     order_data = extract()
  #   order_summary = transform(order_data)
  #   load(order_summary["total_order_value"])
