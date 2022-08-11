@@ -8,8 +8,8 @@ dag = DAG(
     dag_id='test_example_bash_operator',
     default_args={'owner': 'airflow', 'retries': 3, 'start_date': datetime.datetime(2022, 8, 11)},
     schedule='0 0 * * *',
-    dagrun_timeout=datetime.timedelta(minutes=60),
 )
+#    dagrun_timeout=datetime.timedelta(minutes=60),
 
 cmd = 'ls -l'
 run_this_last = EmptyOperator(task_id='run_this_last', dag=dag)
