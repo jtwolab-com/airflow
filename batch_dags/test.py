@@ -17,7 +17,7 @@ def tutorial_taskflow_api_etl():
         order_data_dict = json.loads(data_string)
         return order_data_dict
 
- """
+"""
     @task(multiple_outputs=True)
     def transform(order_data_dict: dict):
         total_order_value = 0
