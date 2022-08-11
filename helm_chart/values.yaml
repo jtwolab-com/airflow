@@ -501,13 +501,17 @@ workers:
     #   cpu: 100m
     #   memory: 128Mi
 
-  resources: {}
-  #  limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  #  requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  # by YSU
+  resources: {
+    limits: {
+      cpu: 200m,
+      memory: 256Mi
+    },
+    requests: {
+      cpu: 100m,
+      memory: 128Mi
+    }
+  }
 
   # Grace period for tasks to finish after SIGTERM is sent from kubernetes
   terminationGracePeriodSeconds: 600
@@ -621,13 +625,17 @@ scheduler:
     config:
       maxUnavailable: 1
 
-  resources: {}
-  #  limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  #  requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  # by YSU
+  resources: {
+      limits: {
+      cpu: 200m,
+      memory: 256Mi
+    },
+    requests: {
+      cpu: 100m,
+      memory: 128Mi
+    }
+  }
 
   # This setting tells kubernetes that its ok to evict
   # when it wants to scale a node down.
@@ -873,13 +881,17 @@ webserver:
       ports:
         - port: "{{ .Values.ports.airflowUI }}"
 
-  resources: {}
-  #   limits:
-  #     cpu: 100m
-  #     memory: 128Mi
-  #   requests:
-  #     cpu: 100m
-  #     memory: 128Mi
+  # by YSU
+  resources: {
+      limits: {
+      cpu: 200m,
+      memory: 256Mi
+    },
+    requests: {
+      cpu: 100m,
+      memory: 128Mi
+    }
+  }
 
   # Create initial user.
   defaultUser:
@@ -913,7 +925,7 @@ webserver:
   #   CSRF_ENABLED = True
 
   service:
-    type: NodePort
+    type: LoadBalancer
     #type: ClusterIP by YSU
     ## service annotations
     annotations: {}
@@ -1165,6 +1177,7 @@ statsd:
 
   # Additional network policies as needed
   extraNetworkPolicies: []
+
   resources: {}
   #   limits:
   #     cpu: 100m
@@ -1632,14 +1645,17 @@ dags:
 
     extraVolumeMounts: []
     env: []
-    resources: {}
-    #  limits:
-    #   cpu: 100m
-    #   memory: 128Mi
-    #  requests:
-    #   cpu: 100m
-    #   memory: 128Mi
-
+    # by YSU
+    resources: {
+      limits: {
+        cpu: 100m,
+        memory: 128Mi
+      },
+      requests: {
+        cpu: 100m,
+        memory: 128Mi
+      }
+    }
 logs:
   persistence:
     # Enable persistent volume for storing logs

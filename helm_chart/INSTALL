@@ -15,3 +15,6 @@ kubectl create namespace airflow
 
 ## Install the chart in that namespace
 helm install airflow -n airflow .
+
+## Upgrade the chart in that namespace
+helm upgrade airflow -n airflow .
