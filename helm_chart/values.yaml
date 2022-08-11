@@ -227,7 +227,7 @@ rbac:
 
 # Airflow executor
 # One of: LocalExecutor, LocalKubernetesExecutor, CeleryExecutor, KubernetesExecutor, CeleryKubernetesExecutor
-executor: "CeleryKubernetesExecutor"
+executor: "KubernetesExecutor"
 #executor: "CeleryExecutor" by YSU
 
 # If this is true and using LocalExecutor/KubernetesExecutor/CeleryKubernetesExecutor, the scheduler's
@@ -502,16 +502,13 @@ workers:
     #   memory: 128Mi
 
   # by YSU
-  resources: {
-    limits: {
-      cpu: 1000m,
+  resources: #{}
+    limits: 
+      cpu: 1000m
       memory: 2048Mi
-    },
-    requests: {
-      cpu: 100m,
+    requests: 
+      cpu: 100m
       memory: 128Mi
-    }
-  }
 
   # Grace period for tasks to finish after SIGTERM is sent from kubernetes
   terminationGracePeriodSeconds: 600
@@ -626,16 +623,13 @@ scheduler:
       maxUnavailable: 1
 
   # by YSU
-  resources: {
-      limits: {
-      cpu: 200m,
+  resources: #{}
+    limits:
+      cpu: 200m
       memory: 512Mi
-    },
-    requests: {
-      cpu: 100m,
+    requests:
+      cpu: 100m
       memory: 128Mi
-    }
-  }
 
   # This setting tells kubernetes that its ok to evict
   # when it wants to scale a node down.
@@ -882,16 +876,13 @@ webserver:
         - port: "{{ .Values.ports.airflowUI }}"
 
   # by YSU
-  resources: {
-      limits: {
-      cpu: 200m,
-      memory: 256Mi
-    },
-    requests: {
-      cpu: 100m,
+  resources: #{}
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+    requests:
+      cpu: 100m
       memory: 128Mi
-    }
-  }
 
   # Create initial user.
   defaultUser:
@@ -1646,16 +1637,13 @@ dags:
     extraVolumeMounts: []
     env: []
     # by YSU
-    resources: {
-      limits: {
-        cpu: 100m,
+    resources: #{}
+      limits:
+        cpu: 100m
         memory: 128Mi
-      },
-      requests: {
-        cpu: 100m,
+      requests:
+        cpu: 100m
         memory: 128Mi
-      }
-    }
 logs:
   persistence:
     # Enable persistent volume for storing logs
