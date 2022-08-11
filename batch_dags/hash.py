@@ -1,13 +1,15 @@
 import datetime
 
-from airflow.models import DAG
+from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
 
 dag = DAG(
     dag_id='test_example_bash_operator',
-    default_args={'owner': 'airflow', 'retries': 3, 'start_date': datetime.datetime(2022, 8, 11)},
-    schedule='0 0 * * *',
+    default_args={'owner': 'airflow', 'retries': 1, 'start_date': datetime.datetime(2022, 8, 11)},
+    schedule_interval=datetime.timedelta(days=1),
+    start_date=datetime.datetime(2022, 8, 1),
+    catchup=False,
 )
 #    dagrun_timeout=datetime.timedelta(minutes=60),
 
