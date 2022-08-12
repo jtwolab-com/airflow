@@ -136,8 +136,13 @@ with DAG(
     # write_xcom >> pod_task_xcom_result
     # [END howto_operator_k8s_write_xcom]
 
-    from tests.system.utils.watcher import watcher
-    list(dag.tasks) >> watcher()
+    k
 
-from tests.system.utils import get_test_run
-test_run = get_test_run(dag)
+#     from tests.system.utils.watcher import watcher
+#     list(dag.tasks) >> watcher()
+
+# from tests.system.utils import get_test_run
+# test_run = get_test_run(dag)
+
+if __name__ == "__main__":
+    dag.cli()
