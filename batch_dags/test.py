@@ -45,7 +45,6 @@ from airflow.operators.empty import EmptyOperator
 dag = DAG(
     dag_id='test_example_bash_operator',
     default_args={'owner': 'airflow', 'retries': 3, 'start_date': datetime.datetime(2022, 8, 1)},
-    schedule='@once',
 )
 
 cmd = 'ls -l'
@@ -67,4 +66,3 @@ task.set_downstream(run_this_last)
 
 if __name__ == "__main__":
     dag.cli()
-    
