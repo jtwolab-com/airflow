@@ -72,7 +72,7 @@ from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import Kubernete
 
 ENV_ID = os.environ.get("SYSTEM_TESTS_ENV_ID")
 DAG_ID = "example_kubernetes_operator"
-NAME_SPACE = 'default'
+NAME_SPACE = 'airflow'
 
 with DAG(
     dag_id=DAG_ID,
