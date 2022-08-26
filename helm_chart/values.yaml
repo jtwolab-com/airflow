@@ -94,7 +94,8 @@ images:
     pullPolicy: IfNotPresent
 
 # Select certain nodes for airflow pods.
-nodeSelector: {}
+nodeSelector: {masters}
+#nodeSelector: {masters} by YSU
 affinity: {}
 tolerations: []
 topologySpreadConstraints: []
@@ -481,8 +482,7 @@ workers:
     # Volume size for worker StatefulSet
     size: 100Gi
     # If using a custom storageClass, pass name ref to all statefulSets here
-    storageClassName: nfs-client
-    #storageClassName: by YSU
+    storageClassName: 
     # Execute init container to chown log directory.
     # This is currently only needed in kind, due to usage
     # of local-path provisioner.
@@ -530,7 +530,8 @@ workers:
   extraVolumeMounts: []
 
   # Select certain nodes for airflow worker pods.
-  nodeSelector: {}
+  nodeSelector: {workers}
+  #nodeSelector: {workers} by YSU
   priorityClassName: ~
   affinity: {}
   # default worker affinity is:
@@ -646,7 +647,8 @@ scheduler:
   extraVolumeMounts: []
 
   # Select certain nodes for airflow scheduler pods.
-  nodeSelector: {}
+  nodeSelector: {masters}
+  #nodeSelector: {} by YSU
   affinity: {}
   # default scheduler affinity is:
   #  podAntiAffinity:
@@ -889,11 +891,11 @@ webserver:
   defaultUser:
     enabled: true
     role: Admin
-    username: admin
-    email: admin@example.com
-    firstName: admin
-    lastName: user
-    password: admin
+    username: j2lab
+    email: eric@jtwolab.com
+    firstName: Eric
+    lastName: Yoo
+    password: j2lab123$
 
   # Launch additional containers into webserver.
   extraContainers: []
@@ -941,7 +943,8 @@ webserver:
     loadBalancerSourceRanges: []
 
   # Select certain nodes for airflow webserver pods.
-  nodeSelector: {}
+  nodeSelector: {masters}
+  #nodeSelector: {} by YSU
   priorityClassName: ~
   affinity: {}
   # default webserver affinity is:
@@ -1030,7 +1033,8 @@ triggerer:
   extraVolumeMounts: []
 
   # Select certain nodes for airflow triggerer pods.
-  nodeSelector: {}
+  nodeSelector: {masters}
+  #nodeSelector: {} by YSU
   affinity: {}
   # default triggerer affinity is:
   #  podAntiAffinity:
@@ -1182,7 +1186,8 @@ statsd:
     extraAnnotations: {}
 
   # Select certain nodes for StatsD pods.
-  nodeSelector: {}
+  nodeSelector: {masters}
+  #nodeSelector: {} by YSU
   affinity: {}
   tolerations: []
   topologySpreadConstraints: []
@@ -1563,20 +1568,20 @@ podTemplate: ~
 dags:
   persistence:
     # Enable persistent volume for storing dags
-    enabled: false
+    enabled: true
     # Volume size for dags
     size: 1Gi
     # If using a custom storageClass, pass name here
-    storageClassName:
+    storageClassName: nfs-client
     # access mode of the persistent volume
-    accessMode: ReadWriteOnce
+    accessMode: ReadWriteMany
+    #accessMode: ReadWriteOnce by YSU
     ## the name of an existing PVC to use
     existingClaim:
     ## optional subpath for dag volume mount
     subPath: ~
   gitSync:
-    enabled: true
-    #enabled: false by YSU
+    enabled: false
 
     # git repo clone url
     # ssh examples ssh://git@github.com/apache/airflow.git
@@ -1648,10 +1653,12 @@ dags:
 logs:
   persistence:
     # Enable persistent volume for storing logs
-    enabled: false
+    enabled: ture
+    #enabled: by YSU
     # Volume size for logs
     size: 100Gi
     # If using a custom storageClass, pass name here
-    storageClassName:
+    storageClassName: nfs-client
+    #storageClassName: by YSU
     ## the name of an existing PVC to use
     existingClaim:
