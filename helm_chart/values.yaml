@@ -94,8 +94,7 @@ images:
     pullPolicy: IfNotPresent
 
 # Select certain nodes for airflow pods.
-nodeSelector: {masters}
-#nodeSelector: {masters} by YSU
+nodeSelector: {}
 affinity: {}
 tolerations: []
 topologySpreadConstraints: []
@@ -530,8 +529,8 @@ workers:
   extraVolumeMounts: []
 
   # Select certain nodes for airflow worker pods.
-  nodeSelector: {workers}
-  #nodeSelector: {workers} by YSU
+  nodeSelector: #{} by YSU
+    magnum.openstack.org/nodegroup: default-worker
   priorityClassName: ~
   affinity: {}
   # default worker affinity is:
@@ -647,8 +646,8 @@ scheduler:
   extraVolumeMounts: []
 
   # Select certain nodes for airflow scheduler pods.
-  nodeSelector: {masters}
-  #nodeSelector: {} by YSU
+  nodeSelector: #{} by YSU
+    magnum.openstack.org/nodegroup: masters
   affinity: {}
   # default scheduler affinity is:
   #  podAntiAffinity:
@@ -943,8 +942,9 @@ webserver:
     loadBalancerSourceRanges: []
 
   # Select certain nodes for airflow webserver pods.
-  nodeSelector: {masters}
-  #nodeSelector: {} by YSU
+  
+  nodeSelector: #{} by YSU
+    magnum.openstack.org/nodegroup: masters
   priorityClassName: ~
   affinity: {}
   # default webserver affinity is:
@@ -1033,8 +1033,8 @@ triggerer:
   extraVolumeMounts: []
 
   # Select certain nodes for airflow triggerer pods.
-  nodeSelector: {masters}
-  #nodeSelector: {} by YSU
+  nodeSelector: #{} by YSU
+    magnum.openstack.org/nodegroup: masters
   affinity: {}
   # default triggerer affinity is:
   #  podAntiAffinity:
@@ -1186,8 +1186,8 @@ statsd:
     extraAnnotations: {}
 
   # Select certain nodes for StatsD pods.
-  nodeSelector: {masters}
-  #nodeSelector: {} by YSU
+  nodeSelector: #{} by YSU
+    magnum.openstack.org/nodegroup: masters
   affinity: {}
   tolerations: []
   topologySpreadConstraints: []
@@ -1362,7 +1362,8 @@ redis:
   safeToEvict: true
 
   # Select certain nodes for redis pods.
-  nodeSelector: {}
+  nodeSelector: #{} by YSU
+    magnum.openstack.org/nodegroup: masters
   affinity: {}
   tolerations: []
   topologySpreadConstraints: []
@@ -1570,9 +1571,10 @@ dags:
     # Enable persistent volume for storing dags
     enabled: true
     # Volume size for dags
-    size: 1Gi
+    size: 5Gi
     # If using a custom storageClass, pass name here
     storageClassName: nfs-client
+    #storageClassName: by YSU
     # access mode of the persistent volume
     accessMode: ReadWriteMany
     #accessMode: ReadWriteOnce by YSU
@@ -1653,7 +1655,7 @@ dags:
 logs:
   persistence:
     # Enable persistent volume for storing logs
-    enabled: ture
+    enabled: true
     #enabled: by YSU
     # Volume size for logs
     size: 100Gi
