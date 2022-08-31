@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu
+  namespace: airflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: ubuntu
+  template:
+    metadata:
+      labels:
+        component: ubuntu
+    spec:
+      containers:
+      - image: ubuntu
+        imagePullPolicy: IfNotPresent
+        name: ubuntu
+        command:
+        - "sleep"
+        - "604800"
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /git
+          name: dags
+          readOnly: false
+      nodeSelector:
+        magnum.openstack.org/nodegroup: masters
+      volumes:
+      - name: dags
+        persistentVolumeClaim:
+          claimName: airflow-dags
