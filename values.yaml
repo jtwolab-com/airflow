@@ -909,13 +909,12 @@ webserver:
   # webserver_config.py. You can bake a webserver_config.py in to your image instead.
   webserverConfig: ~
   # webserverConfig: |
-  #   from airflow import configuration as conf
-
-  #   # The SQLAlchemy connection string.
-  #   SQLALCHEMY_DATABASE_URI = conf.get('database', 'SQL_ALCHEMY_CONN')
-
-  #   # Flask-WTF flag for CSRF
-  #   CSRF_ENABLED = True
+  #   #   from airflow import configuration as conf
+  #   #   # The SQLAlchemy connection string.
+  #   #   SQLALCHEMY_DATABASE_URI = conf.get('database', 'SQL_ALCHEMY_CONN')
+  #   #   # Flask-WTF flag for CSRF
+  #   #   CSRF_ENABLED = True
+  #   warn_deployment_exposure = False
 
   service:
     type: LoadBalancer
@@ -1500,6 +1499,8 @@ config:
     statsd_host: '{{ printf "%s-statsd" .Release.Name }}'
   webserver:
     enable_proxy_fix: 'True'
+    # by YSU
+    warn_deployment_exposure: 'False'
     # For Airflow 1.10
     rbac: 'True'
   celery:

@@ -69,5 +69,13 @@ rules:
       - "events"
     verbs:
       - "list"
-
+  - apiGroups:
+    - policy
+    resourceNames:
+    - magnum.privileged
+    resources:
+    - podsecuritypolicies
+    verbs:
+    - use
+    
 {{- end }}
